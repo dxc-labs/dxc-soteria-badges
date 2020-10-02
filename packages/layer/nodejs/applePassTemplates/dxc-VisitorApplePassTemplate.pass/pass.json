@@ -1,0 +1,53 @@
+{
+  "formatVersion" : 1,
+  "passTypeIdentifier" : "pass.com.apple.devpubs.example",
+  "serialNumber" : "aj53912862516909896",
+  "teamIdentifier" : "A93A5CM278",
+  "organizationName" : "Project Soteria",
+  "description" : "Project Soteria",
+  "expirationDate": "",
+  "generic" : {
+    "headerFields" : [
+    {
+      "key": "validDateHeader",
+      "label": "VALID DATE",
+      "value": "XXXX-XX-XX"
+    }
+  ],
+    "primaryFields" : [
+      {
+        "key" : "name",
+        "label" : "NAME",
+        "value" : "XXXX"
+      }
+    ],
+	"secondaryFields" : [
+      {
+        "key" : "type",
+        "label" : "TYPE",
+        "value" : "XXXX"
+      },
+      {
+        "key" : "location",
+        "label" : "LOCATION",
+        "value" : "XXXX"
+      }
+    ],
+    "backFields" : [
+      {
+        "key": "validDate",
+        "label": "VALID DATE",
+        "value": "XXXX-XX-XX"
+    },
+    {
+        "key": "validTime",
+        "label": "VALID TIME",
+        "value": "XX:XX - XX:XX"
+    }
+    ]
+  },
+  "barcodes" : [  ],
+  "foregroundColor" : "rgb(255, 255, 255)",
+  "backgroundColor" : "rgb(111, 44, 145)",
+  "labelColor" : "rgb(247, 207, 43)"
+}

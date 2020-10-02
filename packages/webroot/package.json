@@ -1,0 +1,36 @@
+{
+  "name": "create-react-app",
+  "version": "4.0.0",
+  "private": true,
+  "homepage": "/badges/",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "loadData": "node ./loadFormDefinitions/loadFormDefinitions.js"
+  },
+  "dependencies": {
+    "@material-ui/core": "latest",
+    "axios": "^0.19.2",
+    "http-status-codes": "^2.1.2",
+    "qrcode.react": "^1.0.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-hook-form": "^5.6.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "latest"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

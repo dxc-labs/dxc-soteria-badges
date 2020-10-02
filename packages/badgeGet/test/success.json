@@ -1,0 +1,16 @@
+{
+    "resource": "/profiles",
+    "path": "/surveys/profiles",
+    "httpMethod": "POST",
+    "headers": {
+        "Authorization" : "xxx"
+    },
+    "multiValueHeaders": {
+    },
+    "queryStringParameters": null,
+    "pathParameters": {
+        "requestId": "xxx"
+    },
+    "body": "",
+    "isBase64Encoded": false
+}

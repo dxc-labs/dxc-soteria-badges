@@ -1,0 +1,19 @@
+{
+    "Parameters": {
+        "OverrideDashboardsApi":"https://api-xxx.example.com/dashboards/ext/sendtemplatemail",
+        "CanaryDeploymentType": "AllAtOnce",
+        "OverrideTenant4Logo": "xxx"
+    },
+    "Tags": {
+    },
+    "StackPolicy": {
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action" : "Update:*",
+                "Principal": "*",
+                "Resource": "*"
+            }
+        ]
+    }
+}

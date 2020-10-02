@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Soteria component stack
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  CanaryDeploymentType:
+    Type: String
+    Description: Deployment Preference Type
+    Default: "Canary10Percent5Minutes"
+
+  OverrideDashboardsApi:
+    Description: "Override Dashboards API (Specify full API URL withOUT method)"
+    Type: String
+    Default: "none"
+
+  OverrideTenant4Logo:
+    Description: "Override Dashboards API (Specify full API URL withOUT method)"
+    Type: String
+    Default: "none"
+
+#!#########################################################################################
+#! Resources:
+#!#########################################################################################
+Resources:
+  Topic: # no-op
+    Type: AWS::SNS::Topic
+
+  StorageLambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./storagelambda/storage-lambda-template.yaml
+      Parameters:
+        StackName: !Ref AWS::StackName
+        OpenApiBucket:
+          !Join
+            - '-'
+            - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+              - !Select [1, !Split ['-', !Ref AWS::StackName]]
+              - !Select [2, !Split ['-', !Ref AWS::StackName]]
+              - 'api-openapi/badges'
+        UserDomainName:
+          Fn::ImportValue:
+            !Join
+              - "-"
+              - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                - "domains-UserDomainName"
+        ApiDomainName:
+          Fn::ImportValue:
+            !Join
+              - "-"
+              - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                - "api-domainName"
+        CognitoUserPoolArn: !Sub
+          - 'arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${poolId}'
+          - poolId:
+              Fn::ImportValue:
+                !Join
+                    - '-'
+                    - - !Select [0, !Split ['-', !Ref AWS::StackName]]
+                      - !Select [1, !Split ['-', !Ref AWS::StackName]]
+                      - !Select [2, !Split ['-', !Ref AWS::StackName]]
+                      - 'identity-user-pool-id'
+        applePassKitBucket: !Sub "${AWS::StackName}"
+        CanaryDeploymentType: !Ref CanaryDeploymentType
+        OverrideDashboardsApi: !Sub "${OverrideDashboardsApi}"
+        OverrideTenant4Logo: !Sub "${OverrideTenant4Logo}"
+
+Outputs:
+  BadgesApi:
+    Value:
+      Fn::GetAtt: [StorageLambdaStack, Outputs.BadgesApi]
+    Export:
+      Name: !Sub "${AWS::StackName}-api"
+

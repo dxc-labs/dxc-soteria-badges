@@ -1,0 +1,14 @@
+{
+    "resource": "/profiles",
+    "path": "/surveys/profiles",
+    "httpMethod": "POST",
+    "headers": {
+    },
+    "multiValueHeaders": {
+    },
+    "queryStringParameters": null,
+    "pathParameters": {
+    },
+    "body": "{\"name\":\"Project_Soteria\",\"email\":\"xxx@example.com\",\"passType\":\"employee\",\"employeeNumber\":\"-\"}",
+    "isBase64Encoded": false
+}

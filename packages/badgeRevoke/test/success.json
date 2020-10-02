@@ -1,0 +1,14 @@
+{
+    "resource": "/profiles",
+    "path": "/surveys/profiles",
+    "httpMethod": "POST",
+    "headers": {
+    },
+    "multiValueHeaders": {
+    },
+    "queryStringParameters": null,
+    "pathParameters": {
+    },
+    "body": "{\"passId\":\"xxx\",\"revokeReason\":\"Health index is not green\"}",
+    "isBase64Encoded": false
+}

@@ -1,0 +1,17 @@
+{
+    "Parameters": {
+        "CanaryDeploymentType": "AllAtOnce"
+    },
+    "Tags": {
+    },
+    "StackPolicy": {
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "NotAction": "Update:Delete",
+                "Principal": "*",
+                "Resource": "*"
+            }
+        ]
+    }
+}

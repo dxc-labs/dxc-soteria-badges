@@ -1,0 +1,850 @@
+{
+	"info": {
+		"_postman_id": "abf95a50-1184-471f-ba3d-f079f619868a",
+		"name": "Badges",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API-01-POST-requests-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2c03203-c252-4934-a1fc-6c0bb1832998",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"requestId\");",
+							"});",
+							"postman.setEnvironmentVariable(\"REQUEST_ID\", pm.response.json().requestId);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					},
+					{
+						"key": "passToken4Test",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Project Soteria\",\r\n    \"email\": \"{{REQUEST_EMAIL}}\",\r\n    \"employeeNumber\": \"-\",\r\n    \"passType\": \"employee\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-02-GET-requests-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87c13565-24db-484d-b48c-e7c408998ed1",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response body with correct return values \", function () {  ",
+							"    pm.expect(pm.response.json().requestId).to.deep.include(pm.environment.get(\"REQUEST_ID\"));",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/{{REQUEST_ID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"{{REQUEST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-03-GET-requests-InvalidAuthToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dbababce-21ec-4fe6-b97c-eba5f12c3b69",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(403);",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response body with empty json\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"    pm.expect(pm.response.text()).equal(\"{}\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "invalid-auth_token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/{{REQUEST_ID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"{{REQUEST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-04-GET-requests-userNotFound",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c0ba33a-f88a-4c61-b199-2df20b49967f",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { ",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {",
+							"     // assert that the response has a valid body",
+							"     pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(request.name+\" \"+\"Response body with empty json\", function () {",
+							"     // assert that the response has a valid JSON body",
+							"    pm.expect(pm.response.text()).equal(\"{}\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{API_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/wrong-user-id",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"wrong-user-id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-05-requests-revoke-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bbd292cd-0f63-447a-85c1-5b5d5ba115fd",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     // assert that the response has a valid JSON body\r",
+							"     pm.response.to.be.withBody;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"passId\": \"{{REQUEST_ID}}\",\n    \"revokeReason\": \"Unit Test - Success Check\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/revoke",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"revoke"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-06-auth-tokens-getToken-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a33ed6c3-c816-4282-a83e-83f230b232fb",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     // assert that the response has a valid JSON body\r",
+							"     pm.response.to.be.withBody;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"locationId\": \"123\",\r\n    \"contactName\": \"rthoutu\",\r\n    \"email\": \"077add59.CSCPortal.onmicrosoft.com@amer.teams.ms\",\r\n    \"contactNumber\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/auth/tokens",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"auth",
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-07-POST-getGatekeeperToken-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0a764c7-cb5e-456a-813c-1ee5dfc61d4c",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     // assert that the response has a valid JSON body\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"token\");\r",
+							"});\r",
+							"postman.setEnvironmentVariable(\"CHECKPOINT_TOKEN\", pm.response.json().token);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"locationId\": \"{{LOCATION_ID}}\",\r\n    \"contactName\": \"postmanTest\",\r\n    \"email\": \"{{REQUEST_EMAIL}}\",\r\n    \"contactNumber\": \"12345687\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/auth/tokens",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"auth",
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-08-GET-requests-checkpoint-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7c7cd39-59cb-4e91-9f51-d177c9505935",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     // assert that the response has a valid JSON body\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-caller",
+						"type": "text",
+						"value": "checkpoint"
+					},
+					{
+						"key": "x-locationid",
+						"value": "{{LOCATION_ID}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{CHECKPOINT_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/{{REQUEST_ID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"{{REQUEST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-09-GET-requests-checkpoint-noLocationId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f79a3e62-76a7-4a53-a99a-0395c5e0a289",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(403);\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     // assert that the response has a valid JSON body\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  \r",
+							"    pm.expect(pm.response.text()).equal(\"{}\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-caller",
+						"value": "checkpoint",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{CHECKPOINT_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/{{REQUEST_ID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"{{REQUEST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-10-GET-requests-checkpoint-invalidAuthToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c1df97a0-95ef-447a-8e86-f9f13968397b",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(403);\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     // assert that the response has a valid JSON body\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  \r",
+							"    pm.expect(pm.response.text()).equal(\"{}\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					},
+					{
+						"key": "x-caller",
+						"value": "checkpoint",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "invalidAuth",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/{{REQUEST_ID}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"{{REQUEST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-11-DEL-finByUser-success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a1e3c43f-930b-4030-801d-1d0a663c002d",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with empty json \", function () {  \r",
+							"    pm.expect(pm.response.text()).equal(\"{}\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/findByUser?userId={{REQUEST_EMAIL}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"findByUser"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{REQUEST_EMAIL}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-12-DEL-findByUser-notFound",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8d9a31c0-5db8-479e-8ba2-14cfcdbc6e0f",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(404);\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with empty json\", function () {  \r",
+							"    pm.expect(pm.response.text()).equal(\"{}\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/findByUser?userId={{REQUEST_EMAIL}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"findByUser"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{REQUEST_EMAIL}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API-13-DEL-findByUser-Invalid-ApiKey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb0901ef-3e10-4ebb-b38f-279e2825b34f",
+						"exec": [
+							"pm.test(request.name+\" \"+\"General Response Check\", function () { \r",
+							"    pm.response.to.have.status(403);\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.withBody;\r",
+							"});\r",
+							"\r",
+							"pm.test(request.name+\" \"+\"Response body with correct return values \", function () {  \r",
+							"    pm.expect(pm.response.json().message).equal(\"Forbidden\")\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"type": "text",
+						"value": "invalid-api-key"
+					}
+				],
+				"url": {
+					"raw": "https://{{API_BASE_URL}}/badges/requests/findByUser?userId={{REQUEST_EMAIL}}",
+					"protocol": "https",
+					"host": [
+						"{{API_BASE_URL}}"
+					],
+					"path": [
+						"badges",
+						"requests",
+						"findByUser"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "{{REQUEST_EMAIL}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1883ec19-00e1-41a5-a34e-bba1bb03f40b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "02a38d22-31d6-4fcd-8029-89990cd9bc96",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "2e0c0922-46db-4559-96a6-2b16fbd39b0b",
+			"key": "API_TOKEN",
+			"value": "xxx"
+		},
+		{
+			"id": "51ff5e86-d51f-4fef-900c-e0d9f3dd727a",
+			"key": "REQUEST_EMAIL",
+			"value": "xxx.xxx.onmicrosoft.com@amer.teams.ms"
+		},
+		{
+			"id": "35102f4b-f9e3-44c0-a214-86b8dc1734ea",
+			"key": "LOCATION_ID",
+			"value": "xxx"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

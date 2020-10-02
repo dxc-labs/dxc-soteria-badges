@@ -1,0 +1,7 @@
+{
+    "Template": {
+        "TemplateName": "StackName-NotifyRevocationToVisitorBadge",
+        "SubjectPart": "DXC Badge revoked for {{passLocation}}",
+        "HtmlPart": "Based on your health & wellness self-reporting information, we have revoked your badge for {{passLocation}}.\n\nReason: {{revokeReason}}"
+    }
+}

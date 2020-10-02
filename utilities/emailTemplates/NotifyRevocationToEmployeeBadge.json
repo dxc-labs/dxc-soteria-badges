@@ -1,0 +1,7 @@
+{
+    "Template": {
+        "TemplateName": "StackName-NotifyRevocationToEmployeeBadge",
+        "SubjectPart": "Project Soteria revoked for returning to work",
+        "HtmlPart": "Based on your health & wellness self-reporting information, we have revoked your badge.\n\nReason: {{revokeReason}}"
+    }
+}

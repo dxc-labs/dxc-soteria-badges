@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: S3 Bucket
+Parameters:
+  Name:
+    Description: "The name of the bucket to create."
+    Type: String
+    MinLength: 3
+    MaxLength: 63
+    AllowedPattern: "[a-z0-9][a-z0-9-.]*[a-z0-9]"
+    Default: "mybucket"
+  Versioning:
+    Description: "Versioning configuration status [Enabled|Suspended]."
+    Type: String
+    Default: "Suspended"
+    AllowedValues:
+      - "Enabled"
+      - "Suspended"
+Resources:
+  s3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: !Ref Name
+      VersioningConfiguration:
+        Status: !Ref Versioning

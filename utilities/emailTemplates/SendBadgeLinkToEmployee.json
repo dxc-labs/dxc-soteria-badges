@@ -1,0 +1,7 @@
+{
+    "Template": {
+        "TemplateName": "StackName-SendBadgeLinkToEmployee",
+        "SubjectPart": "Project Soteria badge for returning to work",
+        "HtmlPart": "Based on your health & wellness self-reporting information, we have issued a <a href=\"{{passLocator}}{{requestId}}#{{token}}\">badge</a> that you can use for returning to work."
+    }
+}

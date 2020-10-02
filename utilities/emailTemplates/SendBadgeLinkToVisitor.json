@@ -1,0 +1,7 @@
+{
+    "Template": {
+        "TemplateName": "StackName-SendBadgeLinkToVisitor",
+        "SubjectPart": "Visitor Pass for {{passLocation}}",
+        "HtmlPart": "We have issued visitor <a href=\"{{passLocator}}{{requestId}}#{{token}}\">badge</a> that you can use for {{passLocation}} which is valid for {{validDate}}."
+    }
+}

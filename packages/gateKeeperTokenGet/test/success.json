@@ -1,0 +1,14 @@
+{
+    "resource": "/profiles",
+    "path": "/surveys/profiles",
+    "httpMethod": "POST",
+    "headers": {
+    },
+    "multiValueHeaders": {
+    },
+    "queryStringParameters": null,
+    "pathParameters": {
+    },
+    "body": "{\"locationId\": \"1234test\",\"contactName\": \"xxx\",\"email\": \"xxx@example.com\",\"contactNumber\": 12356787}",
+    "isBase64Encoded": false
+}
